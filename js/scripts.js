@@ -17,7 +17,7 @@
                 s.parentNode.removeChild(s)
             };
             ss = s.style;
-            ss.position = 'absolute';
+            ss.position = 'fixed';
             ss.bottom = 0;
             ss.right = 0;
             ss.backgroundColor = 'black';
