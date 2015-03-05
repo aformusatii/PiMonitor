@@ -26,27 +26,37 @@
 			<div class="panels-container">
 				<div class="content-panel fl">
 					<div class="cpus">
-						<div class="cpu fl">
+						<div id="cpu1" class="cpu fl first">
 							<h1>CPU 1</h1>
-							<div>123</div>
-							<div>LEVEL</div>
+							<div class="usage"><span>000%</span></div>
+							<div class="level">
+								<div class="bar"><div class="cover"></div></div>
+							</div>
 						</div>
-						<div class="cpu fl">
+						<div id="cpu2" class="cpu fl">
 							<h1>CPU 2</h1>
-							<div>000</div>
-							<div>LEVEL</div>
+							<div class="usage"><span>000%</span></div>
+							<div class="level">
+								<div class="bar"><div class="cover"></div></div>
+							</div>
 						</div>
-						<div class="cpu fl">
+						<div id="cpu3" class="cpu fl">
 							<h1>CPU 3</h1>
-							<div>000</div>
-							<div>LEVEL</div>
+							<div class="usage"><span>000%</span></div>
+							<div class="level">
+								<div class="bar"><div class="cover"></div></div>
+							</div>
 						</div>
-						<div class="cpu fl">
+						<div id="cpu4" class="cpu fl">
 							<h1>CPU 4</h1>
-							<div>000</div>
-							<div>LEVEL</div>
+							<div class="usage"><span>000%</span></div>
+							<div class="level">
+								<div class="bar"><div class="cover"></div></div>
+							</div>
 						</div>
 						<div class="clrfix"></div>
+						<div class="delimiter"></div>
+						<div id="linechart_material"></div>
 					</div>
 				</div>
 				<div class="content-panel fl"></div>
@@ -74,6 +84,7 @@
 		</div>
 	
 		<script src="js/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<script src="js/scripts.js"></script>
 	</body>
 </html>
