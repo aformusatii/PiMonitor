@@ -1,83 +1,68 @@
+$(function () {
+	var $graphContainer = $('.cpus .graph-container');
+	var $canvas = $('#canvas');
+	$canvas.height($graphContainer.height());
+	$canvas.width($graphContainer.width());
+	
+	var canvas = $canvas.get(0);
+	var ctx = canvas.getContext("2d");
+	
+	ctx.lineWidth = 1;	
+	ctx.translate(0.5, 0.5);
+	 
+	var w = ctx.canvas.width;
+	var h = ctx.canvas.height;
+ 
+	 ctx.beginPath();
+	 
+	 ctx.clearRect(0, 0, w, h);
+	 
+	 ctx.strokeStyle = "#BED2D9";
+	 
+	 drawLine(ctx, 0, h - 100, (canvas.width - 2), h - 100);
+	 drawLine(ctx, 0, h - 75, (canvas.width - 2), h - 75);
+	 drawLine(ctx, 0, h - 50, (canvas.width - 2), h - 50);
+	 drawLine(ctx, 0, h - 25, (canvas.width - 2), h - 25);
+	 drawLine(ctx, 0, h - 5, (canvas.width - 2), h - 5);
+ 
+	 ctx.stroke();
+	 ctx.closePath();
+	
+	 ctx.beginPath();
+	 
+	 for (i = 0; i < w - 2; i++) {
+		 var grad = ctx.createLinearGradient(i, h - 100, i, h);
+		 grad.addColorStop(0, "#ff0000");
+		 grad.addColorStop(1, "#00e535");
+		 ctx.strokeStyle = grad;
+		 drawLine(ctx, i, h - getRandomArbitrary(0, 100), i, h);
+	 }
+	 
+	 ctx.stroke();
+	 ctx.closePath();
+	 
+	 ctx.beginPath();
 
-(function() {
-    var v=window,d=document;
+	 ctx.font="9px Noto Sans";
+	 ctx.fillStyle = '#000';
+	 ctx.fillText("100", 2, h - 102);
+	 ctx.fillText("75", 2, h - 77);
+	 ctx.fillText("50", 2, h - 52);
+	 ctx.fillText("25", 2, h - 27);
+	 ctx.fillText("5", 2, h - 7);
+	 
+	 ctx.stroke();
+	 ctx.closePath();
+});
 
-    var onResizeShowSize = function() {
-        var w = v.innerWidth ? v.innerWidth :
-                d.documentElement.clientWidth,
-            h = v.innerHeight ? v.innerHeight : 
-                d.documentElement.clientHeight,
-            s = d.getElementById('WSzPlgIn'),
-            ss;
-        if (!s) {
-            s = d.createElement('div');
-            s.id = 'WSzPlgIn';
-            d.body.appendChild(s);
-            s.onclick = function() {
-                s.parentNode.removeChild(s)
-            };
-            ss = s.style;
-            ss.position = 'fixed';
-            ss.bottom = 0;
-            ss.right = 0;
-            ss.backgroundColor = 'black';
-            ss.opacity = '.5';
-            ss.color = 'white';
-            ss.fontFamily = 'monospace';
-            ss.fontSize = '10pt';
-            ss.padding = '5px';
-            ss.textAlign = 'right';
-        }
-        s.innerHTML = 'w ' + w + '<br />h ' + h;
-    };
-    
-    v.onresize = onResizeShowSize;
-    onResizeShowSize();
-})();
-
-var data = null;
-
-google.load('visualization', '1.1', {packages: ['line']});
-google.setOnLoadCallback(drawChart);
-
-function drawChart() {
-
-  /* data = new google.visualization.DataTable();
-  data.addColumn('number', '');
-  data.addColumn('number', 'Day');
-
-  data.addRows([
-    [1,  37.8],
-    [2,  30.9],
-    [3,  30.9],
-    [4,  30.9],
-    [5,  30.9],
-    [6,  40.9],
-    [7,  37.8],
-    [8,  30.9],
-    [9,  30.9],
-    [10,  30.9],
-    [11,  30.9],
-    [12,  50.9],
-  ]); */
-  
-  var data = google.visualization.arrayToDataTable([
-      ['V1', 'L'],
-      ['1', 10],
-      ['2', 20],
-      ['3', 10],
-  ]);  
-
-  var options = {
-    legend: {position: 'right', textStyle: {fontSize: 7}},
-    width: 290,
-    height: 155
-  };
-
-  var chart = new google.charts.Line(document.getElementById('linechart_material'));
-
-  chart.draw(data, options);
+function drawLine(ctx, x1, y1, x2, y2) {
+	 ctx.moveTo(x1, y1);    
+	 ctx.lineTo(x2, y2);  // X axis	
 }
 
-window.setTimeout(function() {
-},3000)
+/**
+ * Returns a random number between min (inclusive) and max (exclusive)
+ */
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+}

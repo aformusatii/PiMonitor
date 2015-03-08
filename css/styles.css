@@ -119,12 +119,26 @@ body {
 
 .cpus .cpu .level .cover {
 	width: 100%;
-	height: 100%;
-	background-color: #fff;
+	height: 95%;
+	background-color: #F7F9FE;
 }
 
-.cpus .delimiter {
-	height: 5px;
+.cpus .graph-container {
+	padding: 5px;
+}
+
+.cpus .graph {
+	border: 1px solid #DCE8EB;
+	background-color: #F7F9FE;
+	margin: 0;
+	padding: 0;
+}
+
+canvas {
+	margin: 0;
+	padding: 0;
+	vertical-align: bottom;
+	z-index: 999;
 }
 
 /***** Main Content ******/
