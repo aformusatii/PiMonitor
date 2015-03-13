@@ -53,6 +53,11 @@ $(function () {
 	 
 	 ctx.stroke();
 	 ctx.closePath();
+	 
+	$.get( "proc_stat.php", function( data ) {
+		alert(data);
+	});
+	 
 });
 
 function drawLine(ctx, x1, y1, x2, y2) {
