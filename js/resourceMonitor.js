@@ -1,61 +1,59 @@
-/*
+function traverseItems(items, itemHandler) {
+    for (var prop in items) {
+        if (!items.hasOwnProperty(prop)) {
+            continue;
+        }
+        
+        itemHandler(items[prop], prop);
+    }
+}
 
-ResourceMonitor.register({
-	refreshInterval: 1000,
-	refreshCallback: function(resources) {
-		resources.cpu.cpu
-		resources.cpu.cpu1
-		resources.cpu.cpu2
-		resources.cpu.cpu3
-		resources.cpu.cpu4
-		resources.ram.free
-		resources.temperature
-	}
-});
-
- * */
-
-var ResourceMonitor = function () {
+var ResourceMonitor = (function () {
 	var refreshInterval = 1000;
 	var monitorCallback = function() {};
 	var procStatUrl = '';
 	
+	var lastCpuStat = null;
+	
 	var register = function(config) {
 		monitorCallback = config.monitorCallback;
-		procStatUrl = conf.procStatUrl;
+		procStatUrl = config.procStatUrl;
+		refreshInterval = config.refreshInterval;
 		
-		window.setTimeout(function () {
-			
-			
-			
-		}, config.refreshInterval);
+		scheduleResourceStatQuery();
 	}
 	
-	$(function () {
-	    getProcStatAjax(function (procStatInfo1) {
-	        window.setTimeout(function () {
-	            getProcStatAjax(function (procStatInfo2) {
-	                var procStatInfo1Data = procStatInfo1.split(';');
-	                var procStatInfo2Data = procStatInfo2.split(';');
-	                
-	                var cpuInfo1 = parseCPUInfo(procStatInfo1Data[2]);
-	                var cpuInfo2 = parseCPUInfo(procStatInfo2Data[2]);
-	                var cpuInfo = subtractCpuInfo(cpuInfo1, cpuInfo2);
-	        
-	                $('#output').val(JSON.stringify(cpuInfo, null, 4));
-	                $('#output2').val(procStatInfo1Data[0] + procStatInfo2Data[0]);
-	                
-	            });
-	        }, 1000);
-	    });
-	});
-
-	var getProcStatAjax = function(procStatCallback) {
+	var scheduleResourceStatQuery = function() {
+		window.setTimeout(getResourceStatus, refreshInterval);
+	}
+	
+	var getResourceStatus = function() {
 	    $.ajax({
 	        dataType: 'jsonp',
 	        url: procStatUrl,
-	        jsonpCallback: 'getProcStat',
-	        success: procStatCallback
+	        jsonpCallback: 'pushResourceStat',
+	        success: function (resourceStatAll) {
+	        	var resourceStatArray = resourceStatAll.split(';');
+	        	var temperatureStat = resourceStatArray[0];
+	        	var memoryStat = resourceStatArray[1];
+	        	var cpuStat = resourceStatArray[2];
+	        	
+	        	var currentCpuStat = parseCPUInfo(cpuStat);
+	        	
+	        	var resourceStat = {};
+	        	
+	        	if (lastCpuStat == null) {
+	        		resourceStat.cpuStat = null;
+	        	} else {
+	        		resourceStat.cpuStat = subtractCpuInfo(lastCpuStat, currentCpuStat);
+	        	}
+	        	
+        		lastCpuStat = currentCpuStat;
+	        	
+	        	monitorCallback(resourceStat);
+	        	
+	        	scheduleResourceStatQuery();
+	        }
 	    });
 	}
 
@@ -88,6 +86,7 @@ var ResourceMonitor = function () {
 
 	var subtractCpuInfo = function(cpuInfo1, cpuInfo2) {
 	    var cpuInfo = {};
+	    var index = 0;
 	    
 	    for (var cpuInfoProp in cpuInfo1) {
 	        if (!cpuInfo1.hasOwnProperty(cpuInfoProp)) {
@@ -95,7 +94,7 @@ var ResourceMonitor = function () {
 	        }
 	        var cpu1 = cpuInfo1[cpuInfoProp];
 	        var cpu2 = cpuInfo2[cpuInfoProp];
-	        var cpu = {};
+	        var cpu = {index: index++};
 	        
 	        cpuInfo[cpuInfoProp] = cpu;
 	        
@@ -125,4 +124,4 @@ var ResourceMonitor = function () {
 	return {
 		register: register
 	};
-};
+})();
