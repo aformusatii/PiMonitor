@@ -133,13 +133,6 @@ var CpuGraph = (function() {
 	};
 })();
 
-/**
- * Returns a random number between min (inclusive) and max (exclusive)
- */
-function getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
-}
-
 function traverseItems(items, itemHandler) {
     for (var prop in items) {
         if (!items.hasOwnProperty(prop)) {

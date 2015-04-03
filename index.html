@@ -13,6 +13,39 @@
 	    <!--[if lt IE 9]>
 	    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	    <![endif]-->
+	    
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Used',      10],
+          ['MemFree',      2],
+          ['Buffers',      2],
+          ['Cached',      2],
+        ]);
+
+        var options = {
+          is3D: false,
+          legend: 'none',
+          tooltip: { trigger: 'none' },
+          chartArea: {
+        	  left:0,
+        	  top:0, 
+        	  width: '100%', 
+        	  height: '80%'
+          },
+          legend: {'position': 'bottom'}
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+    </script>
+
+	    
 	</head>
 
 	<body>
@@ -62,7 +95,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="content-panel fl"></div>
+				<div class="content-panel fl">
+					<div id="piechart_3d" style="width: 300px; height: 200px;"></div>
+				</div>
 				<div class="content-panel fl"></div>
 				<!-- 
 				<div class="content-panel fl"></div>
