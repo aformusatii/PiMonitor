@@ -3,49 +3,21 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<title>Pi Monitor</title>
 		<meta name="description" content="Pi Monitor">
 		<meta name="author" content="af">
 
+    	<!-- Bootstrap core CSS -->
+    	<link href="css/bootstrap.min.css" rel="stylesheet">
+    	
+    	<!-- Bootstrap theme -->
+    	<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    	
+		<!-- Page specific styles -->
 		<link rel="stylesheet" href="css/styles.css?v=1.0">
-
-	    <!--[if lt IE 9]>
-	    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	    <![endif]-->
-	    
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-      google.load("visualization", "1", {packages:["corechart"]});
-      google.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Used',      10],
-          ['MemFree',      2],
-          ['Buffers',      2],
-          ['Cached',      2],
-        ]);
-
-        var options = {
-          is3D: false,
-          legend: 'none',
-          tooltip: { trigger: 'none' },
-          chartArea: {
-        	  left:0,
-        	  top:0, 
-        	  width: '100%', 
-        	  height: '80%'
-          },
-          legend: {'position': 'bottom'}
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
-        chart.draw(data, options);
-      }
-    </script>
-
-	    
 	</head>
 
 	<body>
@@ -57,6 +29,8 @@
 		</div>
 		<div class="main-content">
 			<div class="panels-container">
+				
+				<!-- CPU INFO -->
 				<div class="content-panel fl">
 					<div class="cpus">
 						<div id="cpu1" class="cpu fl first">
@@ -95,37 +69,55 @@
 						</div>
 					</div>
 				</div>
+				
+				<!-- MEMO INFO -->
 				<div class="content-panel fl">
 					<div id="piechart_3d" style="width: 300px; height: 200px;"></div>
 				</div>
-				<div class="content-panel fl"></div>
+				
+				<!-- TASK DASHBOARD -->
+				<div class="content-panel fl">
+					<div>
+			          <table id="taskTable" class="tasks">
+			            <thead>
+			              <tr>
+			                <th>Task</th>
+			                <th>Status</th>
+			                <th>Log</th>
+			                <th>Start</th>
+			                <th>Stop</th>
+			              </tr>
+			            </thead>
+			            <tbody>
+			              <tr>
+			                <td class="p_name"><abbr title=""></abbr></td>
+			                <td class="p_status"></td>
+			                <td><span class="p_log glyphicon glyphicon-align-justify" aria-hidden="true"></span></td>
+			                <td><span class="p_start glyphicon glyphicon-play" aria-hidden="true"></span></td>
+			                <td><span class="p_stop glyphicon glyphicon-stop" aria-hidden="true"></span></td>
+			              </tr>
+			            </tbody>
+			          </table>
+					</div>
+				</div>
+				
 				<!-- 
-				<div class="content-panel fl"></div>
-				<div class="content-panel fl"></div>
-				<div class="content-panel fl"></div>
-				<div class="content-panel fl"></div>
-				<div class="content-panel fl"></div>
-				<div class="content-panel fl"></div>
-				<div class="content-panel fl"></div>
-				<div class="content-panel fl"></div>
-				<div class="content-panel fl"></div>
-				<div class="content-panel fl"></div>
-				<div class="content-panel fl"></div>
-				<div class="content-panel fl"></div>
-				<div class="content-panel fl"></div>
-				<div class="content-panel fl"></div>
-				<div class="content-panel fl"></div>
-				<div class="content-panel fl"></div>
-				<div class="content-panel fl"></div>
 				<div class="content-panel fl"></div>
 				 -->
 				<div class="clrfix"></div>
 			</div>
 		</div>
 	
-		<script src="js/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="js/external/jquery-2.1.3.min.js"></script>
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-		<script src="js/scripts.js"></script>
-		<script src="js/resourceMonitor.js"></script>
+		<script type="text/javascript" src="js/external/bootstrap.min.js"></script>
+		
+		<script type="text/javascript" src="js/util.js"></script>
+		<script type="text/javascript" src="js/ram.js"></script>
+		<script type="text/javascript" src="js/cpu.js"></script>
+		<script type="text/javascript" src="js/resourceMonitor.js"></script>
+		<script type="text/javascript" src="js/task.js"></script>
+		<script type="text/javascript" src="js/tasksToMonitor.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
 	</body>
 </html>

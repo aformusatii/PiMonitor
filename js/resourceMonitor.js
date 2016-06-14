@@ -1,13 +1,3 @@
-function traverseItems(items, itemHandler) {
-    for (var prop in items) {
-        if (!items.hasOwnProperty(prop)) {
-            continue;
-        }
-        
-        itemHandler(items[prop], prop);
-    }
-}
-
 var ResourceMonitor = (function () {
 	var refreshInterval = 1000;
 	var monitorCallback = function() {};
@@ -37,10 +27,17 @@ var ResourceMonitor = (function () {
 	        	var temperatureStat = resourceStatArray[0];
 	        	var memoryStat = resourceStatArray[1];
 	        	var cpuStat = resourceStatArray[2];
-	        	
-	        	var currentCpuStat = parseCPUInfo(cpuStat);
-	        	
+
 	        	var resourceStat = {};
+
+	        	// Parse temperature information
+	        	resourceStat.temperatureInfo = parseTemperatureInfo(temperatureStat);
+
+	        	// Parse memory information
+	        	resourceStat.memInfo = parseMemInfo(memoryStat);
+	        	
+	        	// Parse CPU Information
+	        	var currentCpuStat = parseCPUInfo(cpuStat);
 	        	
 	        	if (lastCpuStat == null) {
 	        		resourceStat.cpuStat = null;
@@ -119,6 +116,25 @@ var ResourceMonitor = (function () {
 	    }     
 	    
 	    return cpuInfo;
+	}
+	
+	var parseMemInfo = function(memoryStat) {
+		var memAttributeArray = memoryStat.split('|');
+		var memInfo = {};
+		
+		var maaLength = memAttributeArray.length;
+		for (var i = 0; i < maaLength; i++) {
+			var memAttr = memAttributeArray[i].split(':');
+			if (memAttr.length > 1) {
+				memInfo[$.trim(memAttr[0])] = Math.round($.trim(memAttr[1].replace('kB', ''))/1000);
+			}
+		}
+		
+		return memInfo;
+	}
+	
+	var parseTemperatureInfo = function (temperatureStat) {
+		return $.trim(temperatureStat.replace('|', ''))/1000;
 	}
 	
 	return {
